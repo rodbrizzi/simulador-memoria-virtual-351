@@ -93,16 +93,21 @@ int second_chance(int8_t **page_table, int num_pages, int prev_page,
 int nru(int8_t **page_table, int num_pages, int prev_page,
         int fifo_frm, int num_frames, int clock)
 {
+    // percorre as paginas
     for (int pagina = 0; pagina < num_pages; pagina++)
     {
+        // Verifica se o bit R e M são iguais zero, para remover
         if ((page_table[pagina][PT_REFERENCE_BIT] == 0) && (page_table[pagina][PT_DIRTY] == 0))
         {
+            // verifica se está presente na tabela
             if (page_table[pagina][PT_MAPPED] != 0)
             {
                 return pagina;
             }
         }
     }
+
+    // repete o procedimento, para as outras classes possíveis
     for (int pagina = 0; pagina < num_pages; pagina++)
     {
         if ((page_table[pagina][PT_REFERENCE_BIT] == 0) && (page_table[pagina][PT_DIRTY] == 1))
@@ -113,6 +118,7 @@ int nru(int8_t **page_table, int num_pages, int prev_page,
             }
         }
     }
+
     for (int pagina = 0; pagina < num_pages; pagina++)
     {
         if ((page_table[pagina][PT_REFERENCE_BIT] == 1) && (page_table[pagina][PT_DIRTY] == 0))
@@ -123,6 +129,7 @@ int nru(int8_t **page_table, int num_pages, int prev_page,
             }
         }
     }
+
     for (int pagina = 0; pagina < num_pages; pagina++)
     {
         if ((page_table[pagina][PT_REFERENCE_BIT] == 1) && (page_table[pagina][PT_DIRTY] == 1))
@@ -133,12 +140,44 @@ int nru(int8_t **page_table, int num_pages, int prev_page,
             }
         }
     }
+
+    return -1;
 }
 
 int aging(int8_t **page_table, int num_pages, int prev_page,
           int fifo_frm, int num_frames, int clock)
 {
-    return -1;
+    int i;
+    int pagina;
+    int menor;
+
+    // Encontra a primeira posição da página que possui mapeamento  
+    // Depois encontra a página com o a menor idade
+    for (pagina = 0; pagina < num_pages; pagina++)
+    {
+        if (page_table[pagina][PT_MAPPED] != 0)
+        {
+            menor = pagina;
+            break;
+        }
+    }
+
+
+    for (i = pagina + 1; i < num_pages; i++)
+    {
+
+        if (page_table[i][PT_MAPPED] != 0)
+        {
+            
+            if (page_table[i][PT_AGING_COUNTER] < page_table[menor][PT_AGING_COUNTER])
+            {
+                menor = i;
+            }
+        }
+    }
+
+    // Retorna o menor idade
+    return menor;
 }
 
 int mfu(int8_t **page_table, int num_pages, int prev_page,
