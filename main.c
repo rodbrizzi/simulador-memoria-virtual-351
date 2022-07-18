@@ -62,13 +62,77 @@ int fifo(int8_t **page_table, int num_pages, int prev_page,
 int second_chance(int8_t **page_table, int num_pages, int prev_page,
                   int fifo_frm, int num_frames, int clock)
 {
-    return -1;
+    // Percorre todas as paginas de cada modulo e frame
+    for (int frame = 0; frame < num_frames; frame++)
+    {
+        for (int pagina = 0; pagina < num_pages; pagina++)
+        {
+            // Verifica se pagina e frame estão no mesmo endereço
+            if (page_table[pagina][PT_FRAMEID] == frame)
+            {
+                // se o bit R for igual a 1, da a segunda chance e seta o bit R como 0
+                // e faz a atualização da prev_page
+                if (page_table[pagina][PT_REFERENCE_BIT] == 1)
+                {
+                    page_table[pagina][PT_REFERENCE_BIT] = 0;
+                    prev_page = pagina;
+                    break;
+                }
+                // bit R = 0, retorna a página que será removida
+                else
+                {
+                    return pagina;
+                }
+            }
+        }
+    }
+
+    return fifo(page_table, num_pages, prev_page, fifo_frm, num_frames, clock);
 }
 
 int nru(int8_t **page_table, int num_pages, int prev_page,
         int fifo_frm, int num_frames, int clock)
 {
-    return -1;
+    for (int pagina = 0; pagina < num_pages; pagina++)
+    {
+        if ((page_table[pagina][PT_REFERENCE_BIT] == 0) && (page_table[pagina][PT_DIRTY] == 0))
+        {
+            if (page_table[pagina][PT_MAPPED] != 0)
+            {
+                return pagina;
+            }
+        }
+    }
+    for (int pagina = 0; pagina < num_pages; pagina++)
+    {
+        if ((page_table[pagina][PT_REFERENCE_BIT] == 0) && (page_table[pagina][PT_DIRTY] == 1))
+        {
+            if (page_table[pagina][PT_MAPPED] != 0)
+            {
+                return pagina;
+            }
+        }
+    }
+    for (int pagina = 0; pagina < num_pages; pagina++)
+    {
+        if ((page_table[pagina][PT_REFERENCE_BIT] == 1) && (page_table[pagina][PT_DIRTY] == 0))
+        {
+            if (page_table[pagina][PT_MAPPED] != 0)
+            {
+                return pagina;
+            }
+        }
+    }
+    for (int pagina = 0; pagina < num_pages; pagina++)
+    {
+        if ((page_table[pagina][PT_REFERENCE_BIT] == 1) && (page_table[pagina][PT_DIRTY] == 1))
+        {
+            if (page_table[pagina][PT_MAPPED] != 0)
+            {
+                return pagina;
+            }
+        }
+    }
 }
 
 int aging(int8_t **page_table, int num_pages, int prev_page,
