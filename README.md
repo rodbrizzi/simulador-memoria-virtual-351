@@ -68,6 +68,10 @@ Para executar o algoritmo é necessário utilizar os seguintes comandos:
  - second_chance
  - nru
  - aging
+
+ **Exemplo de execução:**
+ ![image](https://user-images.githubusercontent.com/107257613/179799445-f84b73dd-0325-4c28-af61-c36cf642e4e9.png)
+
  
 
 
