@@ -1,8 +1,3 @@
-// Esqueleto de um simulador de memória virtual.
-// Feito para a disciplina DCC065 - Sistemas Operacionais (UFMG)
-// Baseado no código python:
-// https://github.com/thiagomanel/labSO/tree/master/lab5
-
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
@@ -151,7 +146,7 @@ int aging(int8_t **page_table, int num_pages, int prev_page,
     int pagina;
     int menor;
 
-    // Encontra a primeira posição da página que possui mapeamento  
+    // Encontra a primeira posição da página que possui mapeamento
     // Depois encontra a página com o a menor idade
     for (pagina = 0; pagina < num_pages; pagina++)
     {
@@ -162,13 +157,12 @@ int aging(int8_t **page_table, int num_pages, int prev_page,
         }
     }
 
-
     for (i = pagina + 1; i < num_pages; i++)
     {
 
         if (page_table[i][PT_MAPPED] != 0)
         {
-            
+
             if (page_table[i][PT_AGING_COUNTER] < page_table[menor][PT_AGING_COUNTER])
             {
                 menor = i;
