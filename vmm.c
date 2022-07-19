@@ -43,9 +43,9 @@ int fifo(int8_t **page_table, int num_pages, int prev_page,
 {
     int i;
     // for percorre o numero de páginas
-    // retorna a página mais velha
     for (i = 0; i < num_pages; i++)
-    {
+    {   
+        // retorna a página mais velha
         if (page_table[i][PT_FRAMEID] == fifo_frm)
         {
             return i;
@@ -81,7 +81,7 @@ int second_chance(int8_t **page_table, int num_pages, int prev_page,
             }
         }
     }
-
+    //degenera-se pro FIFO
     return fifo(page_table, num_pages, prev_page, fifo_frm, num_frames, clock);
 }
 
@@ -94,7 +94,7 @@ int nru(int8_t **page_table, int num_pages, int prev_page,
         // Verifica se o bit R e M são iguais zero, para remover
         if ((page_table[pagina][PT_REFERENCE_BIT] == 0) && (page_table[pagina][PT_DIRTY] == 0))
         {
-            // verifica se está presente na tabela
+            // verifica se está presente na tabela e retorna a pagina
             if (page_table[pagina][PT_MAPPED] != 0)
             {
                 return pagina;
@@ -174,11 +174,6 @@ int aging(int8_t **page_table, int num_pages, int prev_page,
     return menor;
 }
 
-int mfu(int8_t **page_table, int num_pages, int prev_page,
-        int fifo_frm, int num_frames, int clock)
-{
-    return -1;
-}
 
 int random_page(int8_t **page_table, int num_pages, int prev_page,
                 int fifo_frm, int num_frames, int clock)
