@@ -60,12 +60,12 @@ Após a implementação, foi realizada a comparação do desempenho de todos os 
 ## Execução
 Para executar o algoritmo é necessário utilizar os seguintes comandos: 
 
-     gcc -Wall main.c -o main
-     ./main "escolha" 10 < anomaly.dat
+     gcc -Wall vmm.c -o vmm
+     ./vmm "escolha" 10 < anomaly.dat
 **OBS**: Substituir a escolha pelo algoritmo escolhido:
 
  - fifo
- - second-chance
+ - second_chance
  - nru
  - aging
  
