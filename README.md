@@ -70,8 +70,15 @@ Para executar o algoritmo é necessário utilizar os seguintes comandos:
  - aging
 
  **Exemplo de execução:**
+ 
  ![image](https://user-images.githubusercontent.com/107257613/179799445-f84b73dd-0325-4c28-af61-c36cf642e4e9.png)
 
- 
+ ## Resultados
+Após realizar 10 testes com valores aleatórios distintos de número de páginas virtuais e páginas físicas, chegou-se no seguinte resultado:
 
+![image](https://user-images.githubusercontent.com/107257613/179816035-9563ab51-70a5-4b76-b1c7-6ef951de1dab.png)
+
+Como observado, pode-se concluir que os algoritmos NRU e Aging obtiveram a menor média de page faults. O algoritmo FIFO foi o pior em relação ao teste, ficando atrás dos algoritmos Segunda Chance e Random.
+
+Não foi encontrado nenhum problema no programa na parte da execução.
 
